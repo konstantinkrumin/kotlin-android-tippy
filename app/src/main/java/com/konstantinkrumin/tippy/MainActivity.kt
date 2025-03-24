@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 Log.i(TAG, "onProgressChanged $progress")
                 tvTipPercentLabel.text = "$progress%"
+                computeTipAndTotal()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -53,6 +54,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun computeTipAndTotal() {
+        if (etBaseAmount.text.isEmpty()) {
+            tvTotalAmount.text = ""
+            tvTotalAmount.text = ""
+            return
+        }
         // 1. Get the value of the base and tip percent
         val baseAmount = etBaseAmount.text.toString().toDouble()
         val tipPercent = seekBarTip.progress
@@ -60,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         val tipAmount = baseAmount * tipPercent / 100
         val totalAmount = baseAmount + tipAmount
         // 3. Update the UI
-        tvTipAmount.text = tipAmount.toString()
-        tvTotalAmount.text = totalAmount.toString()
+        tvTipAmount.text = "%.2f".format(tipAmount)
+        tvTotalAmount.text = "%.2f".format(totalAmount)
     }
 }
